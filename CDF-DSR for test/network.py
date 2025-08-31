@@ -27,8 +27,6 @@ class LIIFMLP(nn.Module):
 class Model(nn.Module):
     def __init__(self,
                  mlp_type='LIIFMLP',
-                 rgb_feats_dim=0,
-                 dep_feats_dim=0,
                  pos_params=None,
                  mlp_output=1,
                  mlp_hidden_list=[128, 128, 128, 128]):
@@ -37,7 +35,7 @@ class Model(nn.Module):
         self.pos_encoder = Positional_Encoder(pos_params)
 
         if mlp_type == 'LIIFMLP':
-            mlp_input_dim = self.pos_encoder.output_dim + rgb_feats_dim + dep_feats_dim
+            mlp_input_dim = self.pos_encoder.output_dim
             self.mlp = LIIFMLP(mlp_input_dim, out_dim=mlp_output, hidden_list=mlp_hidden_list)
         else:
             raise NotImplementedError
@@ -48,4 +46,5 @@ class Model(nn.Module):
         y = self.mlp(inputs, coord_win_max=coord_win_max)  # [N, 1]
         y = torch.reshape(y, (B, H, W, -1))
         return y
+
 
