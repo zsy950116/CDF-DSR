@@ -34,8 +34,6 @@ if __name__ == '__main__':
     sr_factor = 4
 
     model = Model(mlp_type='LIIFMLP',
-                  rgb_feats_dim=0,
-                  dep_feats_dim=0,
                   pos_params=params['IREMencoder'],
                   mlp_output=1,
                   mlp_hidden_list=params['LIIFMLPnet']['mlp_hidden_list']).to(device)
@@ -66,4 +64,5 @@ if __name__ == '__main__':
         pred_norm = np.clip(pred_norm, vis_depth.min(), vis_depth.max()).astype(np.uint8)
 
         cv.imwrite(out_path, pred_norm)
+
 
